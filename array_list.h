@@ -1,7 +1,5 @@
-#include <stdio.h>
+#ifndef ARRAY_LIST_H
+#define ARRAY_LIST_H
 
-int main(int argc, char *argv[]) {
-	
-	return 0;
-}
+#endif
 
