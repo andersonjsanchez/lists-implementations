@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <array_list.h>
+#include "array_list.h"
 
 //Los array list empiezan con elnumero minimo de elementos que seria esta constante
 #define DEFAULT_CAPACITY 10
@@ -9,7 +9,7 @@
 //Si no va creciendo linealmente segun las necesidades
 #define GRPWTH_FACTOR 2
 
-ArrayList* arraylist_create(int initial_capacity, int element_size{
+ArrayList* arraylist_create(int initial_capacity, int element_size){
 //El desarrollador puede escoger una capacidad inicial custom, pero si no la define
 //Se va con la capacidad minima por defecto
 	if(initial_capacity <= 0){
@@ -29,5 +29,49 @@ ArrayList* arraylist_create(int initial_capacity, int element_size{
 	list-> size = 0; 
 	list->capacity = initial_capacity; 
 	list->element_size = element_size;
+	}
+	void arraylist_destroy(ArrayList *list){
+		if(!list) return;
+		
+		arraylist_clear(list);
+		free(list->data);
+		free(list);
+	}
+	void arraylist_add(ArrayList *list, void *element){
+		if(!list||!element) return,
+		
+		if(list->size >= list->capacity){
+			arraylist_ensure_capacity(list, list->capacity * GROWTH_FACTOR);
+		}
+		list->data[list->size]){
+			print("Error al asignar memoria para el nuevo elemento.");		
+			return;
+		}
+		memcpy(list->data[list->size], element, list->element_size);
+		list->size++;
+	}
+	void arraylist_insert(ArrayList *list, void *element, int index){
+		if(!list || !element || index < 0 || index > list->size) return;
+		if(list->size >= list->capacity){
+			arraylist_ensure_capacity(list, list->capacity * GROWTH_FACTOR);
+		}
+		for (int i=list->size, i > index, i--){
+			list-<data[i] = list-data[i-1];
+		}
+		list->data[index] = malloc (list->element_size);
+		if(!liat->data[index]){
+			printf("Error al solicitar memoria en la insercion"); return;
+		}
+		memcpy(list->data[index], element, list->element_size);
+		list->size++;
+	}
+	void arraylist_clear(ArrayList *list){
+		if(!list) return;
+		for(int i=0; i<list->size; i++){
+		if(list->data[i]);
+		list->data[i] = NULL;
+		}
+		list->size = 0;
+	}
 }
 
