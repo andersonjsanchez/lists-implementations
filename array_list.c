@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ArrayList.h>
+#include <array_list.h>
 
 //Los array list empiezan con elnumero minimo de elementos que seria esta constante
 #define DEFAULT_CAPACITY 10
