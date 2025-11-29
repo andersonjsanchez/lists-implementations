@@ -16,7 +16,7 @@ ArrayList* arraylist_create(int initial_capacity, int element_size){
 		initial_capacity = DEFAULT_CAPACITY;
 	}
 	ArrayList *list = (ArrayList*)malloc(sizeof(ArrayList));
-	if(list){
+	if(!list){
 		printf("No se puede asignar memoria");
 		return NULL;
 	}
@@ -29,6 +29,7 @@ ArrayList* arraylist_create(int initial_capacity, int element_size){
 	list-> size = 0; 
 	list->capacity = initial_capacity; 
 	list->element_size = element_size;
+	return list;
 	}
 	void arraylist_destroy(ArrayList *list){
 		if(!list) return;
@@ -43,6 +44,7 @@ ArrayList* arraylist_create(int initial_capacity, int element_size){
 		if(list->size >= list->capacity){
 			arraylist_ensure_capacity(list, list->capacity * GROWTH_FACTOR);
 		}
+		list->data[list->size] = malloc(list->element_size);
 		if (!list->data[list->size]){
 			printf("Error al asignar memoria para el nuevo elemento.");		
 			return;
@@ -69,11 +71,12 @@ ArrayList* arraylist_create(int initial_capacity, int element_size){
 		if(!list || index < 0 || index > list->size) return NULL;
 		return list->data[index];
 	}
-	void arraylist_remove(ArrayList *list, int index){
-		if(!list || index < 0 || index > list->size) return NULL;
+	int arraylist_remove(ArrayList *list, int index){
+		if(!list || index < 0 || index > list->size)return 0;
 		free(list->data[index]);
-		for(int i=index; i<list->size; i++){
-			list->data[i] = list->[i+1];
+		
+		for(int i = index; i < list->size; i++){
+			list->data[i] = list->data[i+1];
 		}
 		list->size--;
 		list->data[list->size] = NULL;
@@ -92,7 +95,7 @@ ArrayList* arraylist_create(int initial_capacity, int element_size){
 	void arraylist_clear(ArrayList *list){
 		if(!list) return;
 		for(int i=0; i<list->size; i++){
-		if(list->data[i]);
+		free(list->data[i]);
 		list->data[i] = NULL;
 		}
 		list->size = 0;
